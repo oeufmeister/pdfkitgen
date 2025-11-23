@@ -32,7 +32,7 @@ module.exports = {
   inclusions: [
     // one or more items; make as many rows as you want to test pagination
     {
-      description: "100 metre golden Obamium (Obama Pyramid) perforated panel.",
+      description: "100 metre golden Obamium (Obama Pyramid) perforated panel.\n Laced with obamium spheres and 15 Litres of Mountain Dew \n john wock \n rick riordan \n milhouse, house? i like apartments better than houses you know i think they make a good place to live",
       qty: 2,
       rate: "150 VBucks",
       amount: "300 VBucks",

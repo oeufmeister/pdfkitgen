@@ -273,7 +273,9 @@ function generateQuotePdf(outputPath, data) {
 
 // Run generator
 const OUTPUT = path.join(__dirname, "quote-output.pdf");
-generateIfMain();
+// generateIfMain();
+module.exports = generateQuotePdf;
+
 
 function generateIfMain() {
   // quick validation

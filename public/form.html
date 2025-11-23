@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quote PDF Tester</title>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    textarea { width: 100%; height: 120px; }
+    input, textarea { margin-bottom: 20px; padding: 8px; }
+    .row { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    .row input, .row textarea { width: 100%; margin-top: 5px; }
+    button { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+
+<h1>Test Quote Data</h1>
+
+<form method="POST" action="/generate" onsubmit="prepareInclusionsJSON()">
+  <h2>Header</h2>
+  <input type="text" name="attention" placeholder="Attention" required><br>
+  <input type="text" name="company" placeholder="Company" required><br>
+  <textarea name="addressLines" placeholder="Address lines (one per line)"></textarea>
+  <input type="text" name="date" placeholder="Date"><br>
+  <input type="text" name="quoteNumber" placeholder="Quote Number"><br>
+  <input type="text" name="jobNumber" placeholder="Job Number"><br>
+  <textarea name="companyInfoLines" placeholder="Company info lines (one per line)"></textarea>
+
+  <h2>Project</h2>
+  <input type="text" name="projectName" placeholder="Project Name"><br>
+  <textarea name="projectLines" placeholder="Project description lines"></textarea>
+
+  <!-- ---------- Dynamic Inclusions ---------- -->
+  <h2>Inclusions</h2>
+  <div id="inclusionRows"></div>
+  <button type="button" onclick="addRow()">Add Row</button>
+
+  <!-- Hidden field that will store final JSON -->
+  <input type="hidden" name="inclusions">
+
+  <h2>Terms</h2>
+  <textarea name="terms">
+Quotation Terms & Conditions
+
+1. Validity: ...
+2. Tax: ...
+</textarea>
+
+  <h2>Valid To</h2>
+  <input type="text" name="validTo" placeholder="Valid to date">
+
+  <br><br>
+  <button type="submit">Generate PDF</button>
+</form>
+
+<script>
+function addRow() {
+  const container = document.getElementById("inclusionRows");
+
+  const row = document.createElement("div");
+  row.className = "row";
+
+  row.innerHTML = `
+    <textarea placeholder="Description" class="desc"></textarea>
+    <input type="number" placeholder="Qty" class="qty">
+    <input type="text" placeholder="Rate" class="rate">
+    <input type="text" placeholder="Amount" class="amount">
+    <button type="button" onclick="this.parentElement.remove()">Remove</button>
+  `;
+
+  container.appendChild(row);
+}
+
+function prepareInclusionsJSON() {
+  const rows = document.querySelectorAll("#inclusionRows .row");
+
+  const data = [];
+
+  rows.forEach(row => {
+    data.push({
+      description: row.querySelector(".desc").value,
+      qty: Number(row.querySelector(".qty").value),
+      rate: row.querySelector(".rate").value,
+      amount: row.querySelector(".amount").value
+    });
+  });
+
+  // Put JSON string into the hidden field
+  document.querySelector("input[name='inclusions']").value = JSON.stringify(data);
+}
+</script>
+
+</body>
+</html>
